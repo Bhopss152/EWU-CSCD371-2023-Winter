@@ -23,26 +23,15 @@ namespace IntelliTect.TestTools
         /// </summary>
         None = 0,
 
-        /// <summary>
-        /// Specifies that the wildcard pattern is compiled to an assembly.
-        /// This yields faster execution but increases startup time.
-        /// </summary>
+      
         Compiled = 1,
 
-        /// <summary>
-        /// Specifies case-insensitive matching.
-        /// </summary>
         IgnoreCase = 2,
 
-        /// <summary>
-        /// Specifies culture-invariant matching.
-        /// </summary>
+       
         CultureInvariant = 4
     };
 
-    /// <summary>
-    /// Represents a wildcard pattern.
-    /// </summary>
     public sealed class WildcardPattern
     {
         //
@@ -88,11 +77,7 @@ namespace IntelliTect.TestTools
             this(pattern, WildcardOptions.None)
         { }
 
-        /// <summary>
-        /// Initializes an instance of the WildcardPattern class for
-        /// the specified wildcard pattern expression, with options
-        /// that modify the pattern.
-        /// </summary>
+    
         /// <param name="pattern">The wildcard pattern to match.</param>
         /// <param name="escapeCharacter">The escape character for the pattern.</param>
         /// <returns>The constructed WildcardPattern object</returns>
@@ -101,11 +86,7 @@ namespace IntelliTect.TestTools
             this(pattern, escapeCharacter, WildcardOptions.None)
         { }
 
-        /// <summary>
-        /// Initializes an instance of the WildcardPattern class for
-        /// the specified wildcard pattern expression, with options
-        /// that modify the pattern.
-        /// </summary>
+       
         /// <param name="pattern">The wildcard pattern to match.</param>
         /// <param name="options">Wildcard options</param>
         /// <returns>The constructed WildcardPattern object</returns>
@@ -173,14 +154,7 @@ namespace IntelliTect.TestTools
             return new WildcardPattern(pattern, options);
         }
 
-        /// <summary>
-        /// Instantiate internal regex member if not already done.
-        /// </summary>
-        ///
-        /// <returns> true on success, false otherwise </returns>
-        ///
-        /// <remarks>  </remarks>
-        ///
+        
         private void Init()
         {
             if (_isMatch == null)

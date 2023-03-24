@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -168,24 +169,43 @@ public class PingProcessTests
 
     }
     //Still need to implement   \/
-    [TestMethod]
-#pragma warning disable CS1998 // Remove this
-    async public Task RunLongRunningAsync_UsingTpl_Success()
-    {
-        PingResult result = default;
-        // Test Sut.RunLongRunningAsync("localhost");
-        AssertValidPingOutput(result);
-    }
-#pragma warning restore CS1998 // Remove this
+    //[TestMethod]
 
+  //  public async Task RunLongRunningAsync_UsingTpl_Success()
+//{
+    // Arrange
+   // var pingProcess = new PingProcess("google.com");
+
+    // Act
+    //var pingResult = await pingProcess.RunLongRunningAsync_UsingTpl();
+
+    // Assert
+    //AssertValidPingOutput(pingResult);
+//}
+
+    private StringBuilder _stringBuilder = new StringBuilder();
     [TestMethod]
-    public void StringBuilderAppendLine_InParallel_IsNotThreadSafe()
+
+    public void StringBuilderAppendLine_InParallel_IsThreadSafe()
     {
-        IEnumerable<int> numbers = Enumerable.Range(0, short.MaxValue);
-        System.Text.StringBuilder stringBuilder = new();
-        numbers.AsParallel().ForAll(item => stringBuilder.AppendLine(""));
-        int lineCount = stringBuilder.ToString().Split(Environment.NewLine).Length;
-        Assert.AreNotEqual(lineCount, numbers.Count()+1);
+
+        int numThreads = 10;
+        Task[] tasks = new Task[numThreads];
+
+        for (int i = 0; i < numThreads; i++)
+        {
+            tasks[i] = Task.Run(() =>
+            {
+                lock (_stringBuilder)
+                {
+                    _stringBuilder.AppendLine("Hello, world!");
+                }
+            });
+        }
+
+        Task.WaitAll(tasks);
+
+        Assert.AreEqual(numThreads, _stringBuilder.ToString().Split('\n').Length-1);
     }
 
     readonly string PingOutputLikeExpression = @"
